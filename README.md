@@ -1,3 +1,3 @@
 # ExtendableCalendar
 This is my Java team project.
-It uses JavaFx.
+It uses JavaFx and SQLite.
