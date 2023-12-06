@@ -19,7 +19,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
