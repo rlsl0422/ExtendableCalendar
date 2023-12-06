@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -18,6 +19,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
@@ -80,6 +82,25 @@ public class HelloController implements Initializable {
         double spacingV = calendar_body.getVgap();
 
         int maxDate = nowTime.getMonth().maxLength();
+
+        ArrayList<String> eDate;
+
+        String tyear = String.valueOf(nowTime.getYear());
+        String tmonth = String.valueOf(nowTime.getMonth().getValue());
+        if (tmonth.length() == 1) {
+            tmonth = "0" + tmonth;
+        }
+
+
+        //
+        try {
+            eDate = ImportDateList.importdatelist(tyear+tmonth);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        //
+
         if(nowTime.getYear() % 4 != 0 && maxDate == 29){
             maxDate = 28;
         }// 윤년 체크
@@ -103,6 +124,10 @@ public class HelloController implements Initializable {
                 }
 
 
+                //
+
+
+                //
 
                 if (calculatedDate > dateOffset) {
                     int currentDate = calculatedDate - dateOffset;
@@ -141,12 +166,30 @@ public class HelloController implements Initializable {
                             }
                         });
                         Text date = new Text(String.valueOf(currentDate));//새로운 날짜 텍스트 객체 생성 이름은 date
+
+                        String sNum = String.valueOf(currentDate);
+                        if (sNum.length() == 1) {
+                            sNum = "0" + sNum;
+                        }
+
+
+
                         if ((calculatedDate - 1) % 7 == 0) date.setFill(Color.RED);
                         else if ((calculatedDate) % 7 == 0) date.setFill(Color.BLUE);
                         else date.setFill(Color.BLACK);
                         double textTranslationY = -(rectangleHeight / 2) * 0.75;//날짜 상자에서 반절을 취하고 그 중에서 3/4위치
                         date.setTranslateY(textTranslationY);//위로 이동
                         stackPane.getChildren().add(date);//
+
+
+                        if (eDate.contains(sNum)) {
+                            Circle circle = new Circle();
+                            circle.setRadius(4);
+                            circle.setFill(Color.RED);
+                            circle.setTranslateY(-(rectangleHeight / 2) * 0.75);
+                            circle.setTranslateX(-(rectangleWidth / 2) * 0.75);
+                            stackPane.getChildren().add(circle);
+                        }
                     }
                 }
                 calendar_body.getChildren().add(stackPane);
@@ -169,6 +212,9 @@ public class HelloController implements Initializable {
                 Label lb_text_title = new Label("제목");
                 double width = fp_list.getWidth();
                 Rectangle rectangle = new Rectangle();
+
+                //textField.setDisable(true);
+                //textArea.setDisable(true);
 
                 rectangle.setWidth(width-6.0);
                 rectangle.setHeight(150.0);
@@ -205,6 +251,8 @@ public class HelloController implements Initializable {
                         } catch (ClassNotFoundException | SQLException e) {
                             throw new RuntimeException(e);
                         }
+                        calendar_body.getChildren().clear();
+                        drawCalendar();
                     }
                 });
 
@@ -267,6 +315,8 @@ public class HelloController implements Initializable {
                         btn_addlist.setDisable(false);
                         fp_list.getChildren().clear();
                         drawSchedule(qdate);
+                        calendar_body.getChildren().clear();
+                        drawCalendar();
                     }
                 });
 
