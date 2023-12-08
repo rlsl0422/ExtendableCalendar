@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -24,30 +25,15 @@ import java.util.ResourceBundle;
 public class HelloController implements Initializable {
     ZonedDateTime nowTime = ZonedDateTime.now();
     ZonedDateTime selectedDate = ZonedDateTime.of(1970,1,1,1,1,1,1,nowTime.getZone());
-
     ZonedDateTime justNow = ZonedDateTime.now();
-
-
-
-    //테스트 용 변수
-
-    //끝
-    ArrayList<ArrayList<String>> data = new ArrayList<>();
-
-    String qdate;
-
+    ArrayList<ArrayList<String>> data = new ArrayList<>(); //이차원 어레이 리스트 일정 정보 저장
+    String qdate; //쿼리문에 쓰일 날짜 형식의 문자열
     @FXML
     private Button btn_addlist;
     @FXML
     private FlowPane calendar_body, fp_list;
     @FXML
     private Label lb_month;
-
-
-
-
-
-
 
     @FXML
     private void nextMonth() {
@@ -82,24 +68,21 @@ public class HelloController implements Initializable {
 
         int maxDate = nowTime.getMonth().maxLength();
 
-        ArrayList<String> eDate;
+        ArrayList<String> eDate; //현재 달의 일정이 있는 날을 불러옴
 
+        //지금 날짜의 년도와 월을 합침
         String tyear = String.valueOf(nowTime.getYear());
         String tmonth = String.valueOf(nowTime.getMonth().getValue());
         if (tmonth.length() == 1) {
             tmonth = "0" + tmonth;
         }
 
-
-        //
         try {
             eDate = ImportDateList.importdatelist(tyear+tmonth);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
         //
-
         if(nowTime.getYear() % 4 != 0 && maxDate == 29){
             maxDate = 28;
         }// 윤년 체크
@@ -116,18 +99,13 @@ public class HelloController implements Initializable {
                 rectangle.setWidth(rectangleWidth);
                 double rectangleHeight = (calendarHeight/6) - strokeWidth - spacingV;
                 rectangle.setHeight(rectangleHeight);
+                rectangle.setArcWidth(10);
+                rectangle.setArcHeight(10);
                 stackPane.getChildren().add(rectangle);// 상자 추가
                 int calculatedDate = (j+1)+(7*i);
                 if (dateOffset == 7) {
                     calculatedDate += 7;
                 }
-
-
-                //
-
-
-                //
-
                 if (calculatedDate > dateOffset) {
                     int currentDate = calculatedDate - dateOffset;
                     if (currentDate == nowTime.getDayOfMonth() && nowTime.getMonth() == justNow.getMonth() && nowTime.getYear() == justNow.getYear()) {
@@ -139,6 +117,7 @@ public class HelloController implements Initializable {
                         rectangle.setFill(Color.valueOf("#F6CED8"));
                     }
                     if (currentDate <= maxDate) {
+                        //날짜 숫자가 있는 날에는 이벤트 핸들러 추가
                         rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent event) {
@@ -165,22 +144,18 @@ public class HelloController implements Initializable {
                             }
                         });
                         Text date = new Text(String.valueOf(currentDate));//새로운 날짜 텍스트 객체 생성 이름은 date
-
-                        String sNum = String.valueOf(currentDate);
-                        if (sNum.length() == 1) {
-                            sNum = "0" + sNum;
-                        }
-
-
-
                         if ((calculatedDate - 1) % 7 == 0) date.setFill(Color.RED);
                         else if ((calculatedDate) % 7 == 0) date.setFill(Color.BLUE);
                         else date.setFill(Color.BLACK);
                         double textTranslationY = -(rectangleHeight / 2) * 0.75;//날짜 상자에서 반절을 취하고 그 중에서 3/4위치
                         date.setTranslateY(textTranslationY);//위로 이동
-                        stackPane.getChildren().add(date);//
-
-
+                        date.setFont(Font.font("Arial"));
+                        stackPane.getChildren().add(date);
+                        //일정이 있는 날 빨간 점 추가
+                        String sNum = String.valueOf(currentDate);
+                        if (sNum.length() == 1) {
+                            sNum = "0" + sNum;
+                        }
                         if (eDate.contains(sNum)) {
                             Circle circle = new Circle();
                             circle.setRadius(4);
@@ -217,9 +192,11 @@ public class HelloController implements Initializable {
 
                 rectangle.setWidth(width-6.0);
                 rectangle.setHeight(150.0);
-                rectangle.setFill(Color.AQUA);
+                rectangle.setFill(Color.valueOf("#b4eaed"));
                 rectangle.setStrokeWidth(3);
-                rectangle.setStroke(Color.BLUE);
+                rectangle.setStroke(Color.valueOf("#3ca5ab"));
+                rectangle.setArcWidth(10);
+                rectangle.setArcHeight(10);
 
                 double rectangleHeight = rectangle.getHeight();
                 double rectangleWeight = rectangle.getWidth();
@@ -265,9 +242,6 @@ public class HelloController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         changeMonthLabel();
         drawCalendar();
-
-
-        //이벤트 핸들어 추가 테스트 용
         btn_addlist.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -282,9 +256,11 @@ public class HelloController implements Initializable {
 
                 rectangle.setWidth(width-6.0);
                 rectangle.setHeight(150.0);
-                rectangle.setFill(Color.PINK);
+                rectangle.setFill(Color.valueOf("#f0c0ce"));
                 rectangle.setStrokeWidth(3);
-                rectangle.setStroke(Color.RED);
+                rectangle.setStroke(Color.valueOf("#cf2b5b"));
+                rectangle.setArcWidth(10);
+                rectangle.setArcHeight(10);
 
                 double rectangleHeight = rectangle.getHeight();
                 double rectangleWeight = rectangle.getWidth();
@@ -327,7 +303,6 @@ public class HelloController implements Initializable {
                 fp_list.getChildren().add(stackPane);
             }
         });
-        //테스트 끝
     }
 }
 

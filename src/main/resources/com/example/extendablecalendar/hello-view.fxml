@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="500.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.extendablecalendar.HelloController">
    <children>
@@ -9,18 +10,42 @@
       <HBox alignment="CENTER" layoutX="208.0" layoutY="22.0" prefHeight="22.0" prefWidth="216.0" spacing="5.0">
          <children>
             <Button mnemonicParsing="false" onAction="#previousMonth" text="&lt;&lt;" />
-            <Label fx:id="lb_month" text="XXXX년 X월" />
+            <Label fx:id="lb_month" text="XXXX년 X월">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></Label>
             <Button mnemonicParsing="false" onAction="#nextMonth" text="&gt;&gt;" />
          </children></HBox>
       <HBox alignment="CENTER" layoutX="2.0" layoutY="58.0" prefHeight="18.0" prefWidth="625.0" spacing="78.0">
          <children>
-            <Label text="일" textFill="RED" />
-            <Label text="월" />
-            <Label text="화" />
-            <Label text="수" />
-            <Label text="목" />
-            <Label text="금" />
-            <Label text="토" textFill="BLUE" />
+            <Label text="일" textFill="RED">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></Label>
+            <Label text="월">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></Label>
+            <Label text="화">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></Label>
+            <Label text="수">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></Label>
+            <Label text="목">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></Label>
+            <Label text="금">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></Label>
+            <Label text="토" textFill="BLUE">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></Label>
          </children></HBox>
       <ScrollPane layoutX="628.0" layoutY="77.0" prefHeight="417.0" prefWidth="216.0">
         <content>
