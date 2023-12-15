@@ -22,7 +22,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class HelloController implements Initializable {
+public class CalendarController implements Initializable {
     ZonedDateTime nowTime = ZonedDateTime.now();
     ZonedDateTime selectedDate = ZonedDateTime.of(1970,1,1,1,1,1,1,nowTime.getZone());
     ZonedDateTime justNow = ZonedDateTime.now();
