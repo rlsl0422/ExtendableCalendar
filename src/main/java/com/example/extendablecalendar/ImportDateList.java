@@ -7,7 +7,7 @@ public class ImportDateList {
     public static ArrayList<String> importdatelist(String time) throws ClassNotFoundException, SQLException {
         ArrayList<String> dates = new ArrayList<>();
         Class.forName("org.sqlite.JDBC");
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\PC\\IdeaProjects\\ExtendableCalendar\\DBMS\\Schedule_Table");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:DBMS/Schedule_Table");
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("Select date from SCHEDULE where date like '" + time + "%'");
         while (resultSet.next()) {
